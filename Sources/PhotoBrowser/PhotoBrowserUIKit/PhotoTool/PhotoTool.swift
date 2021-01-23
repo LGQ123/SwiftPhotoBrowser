@@ -222,7 +222,9 @@ extension Bundle {
         #endif
 
         for candidate in candidates {
-            if let bundlePath = candidate?.appendingPathComponent(bundleName + ".bundle"), let bundle = Bundle(url: bundlePath) {
+            if let candicate = candidate,
+               let bundlePath = candidate.appendingPathComponent(bundleName + ".bundle"),
+               let bundle = Bundle(url: bundlePath) {
                 return bundle
             }
         }
