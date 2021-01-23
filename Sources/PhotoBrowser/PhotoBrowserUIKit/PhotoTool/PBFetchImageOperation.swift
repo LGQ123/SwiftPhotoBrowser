@@ -117,22 +117,14 @@ class PBFetchImageOperation: Operation {
     }
     
     func scaleImage(_ image: UIImage?) -> UIImage? {
-        guard let i = image else {
-            return nil
-        }
-        guard let data = i.jpegData(compressionQuality: 1) else {
-            return i
-        }
+        guard let i = image else { return nil }
+        guard let data = i.jpegData(compressionQuality: 1) else { return i }
         let mUnit: CGFloat = 1024 * 1024
         
-        if data.count < Int(0.2 * mUnit) {
-            return i
-        }
+        if data.count < Int(0.2 * mUnit) { return i }
         let scale: CGFloat = (data.count > Int(mUnit) ? 0.5 : 0.7)
         
-        guard let d = i.jpegData(compressionQuality: scale) else {
-            return i
-        }
+        guard let d = i.jpegData(compressionQuality: scale) else { return i }
         return UIImage(data: d)
     }
     

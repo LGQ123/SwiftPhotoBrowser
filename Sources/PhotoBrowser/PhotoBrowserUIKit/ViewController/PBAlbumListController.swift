@@ -39,9 +39,7 @@ class PBAlbumListController: UIViewController, UITableViewDataSource, UITableVie
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
         
-        guard shouldReloadAlbumList else {
-            return
-        }
+        guard shouldReloadAlbumList else { return }
         
         DispatchQueue.global().async {
             PBPhotoModelManager.getPhotoAlbumList(ascending: PhotoConfiguration.default().sortAscending, allowSelectImage: PhotoConfiguration.default().allowSelectImage, allowSelectVideo: PhotoConfiguration.default().allowSelectVideo) { [weak self] (albumList) in

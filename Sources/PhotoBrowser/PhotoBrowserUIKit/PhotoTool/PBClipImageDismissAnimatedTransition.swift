@@ -14,7 +14,9 @@ class PBClipImageDismissAnimatedTransition: NSObject, UIViewControllerAnimatedTr
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        guard let fromVC = transitionContext.viewController(forKey: .from) as? PBClipImageViewController, let toVC = transitionContext.viewController(forKey: .to) as? PBEditImageViewController else {
+        guard let fromVC = transitionContext.viewController(forKey: .from) as? PBClipImageViewController,
+              let toVC = transitionContext.viewController(forKey: .to) as? PBEditImageViewController
+        else {
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
             return
         }

@@ -28,14 +28,9 @@ func getAppName() -> String {
 }
 
 func isIPhoneXSeries() -> Bool {
-    var iPhoneXSeries: Bool = false
+    guard #available(iOS 11.0, *) else { return false }
     let mainWindow: UIWindow = UIApplication.shared.windows.last!
-    if #available(iOS 11.0, *) {
-        if mainWindow.safeAreaInsets.bottom > 0 {
-            iPhoneXSeries = true
-        }
-    }
-    return iPhoneXSeries
+    return mainWindow.safeAreaInsets.bottom > 0
 }
 
 func deviceIsiPhone() -> Bool {
@@ -46,13 +41,8 @@ func deviceIsiPad() -> Bool {
     return UIDevice.current.userInterfaceIdiom == .pad
 }
 func deviceSafeAreaInsets() -> UIEdgeInsets {
-    var insets: UIEdgeInsets = .zero
-    
-    if #available(iOS 11, *) {
-        insets = UIApplication.shared.windows.first?.safeAreaInsets ?? .zero
-    }
-    
-    return insets
+    guard #available(iOS 11, *) else { return .zero }
+    return UIApplication.shared.windows.first?.safeAreaInsets ?? .zero
 }
 
 func getSpringAnimation() -> CAKeyframeAnimation {
@@ -70,42 +60,27 @@ func getSpringAnimation() -> CAKeyframeAnimation {
 
 func getImage(_ named: String) -> UIImage? {
     return UIImage(named: named, in: Bundle.pb_module, compatibleWith: nil)
-//    return UIImage(named: named)
 }
 
 func isLandscape() -> Bool {
-    if #available(iOS 13.0, *) {
-        return UIApplication.shared.windows
-            .first?
-            .windowScene?
-            .interfaceOrientation
-            .isLandscape ?? false
-    } else {
-       return  UIApplication.shared.statusBarOrientation.isLandscape
+    guard #available(iOS 13.0, *) else {
+        return  UIApplication.shared.statusBarOrientation.isLandscape
     }
+    return UIApplication.shared.windows.first?.windowScene?.interfaceOrientation.isLandscape ?? false
 }
 
 func isPortrait() -> Bool {
-    if #available(iOS 13.0, *) {
-        return UIApplication.shared.windows
-            .first?
-            .windowScene?
-            .interfaceOrientation
-            .isPortrait ?? false
-    } else {
-       return  UIApplication.shared.statusBarOrientation.isPortrait
+    guard #available(iOS 13.0, *) else {
+        return  UIApplication.shared.statusBarOrientation.isPortrait
     }
+    return UIApplication.shared.windows.first?.windowScene?.interfaceOrientation.isPortrait ?? false
 }
 
 func getOrientation() -> UIInterfaceOrientation? {
-    if #available(iOS 13.0, *) {
-        return UIApplication.shared.windows
-            .first?
-            .windowScene?
-            .interfaceOrientation
-    } else {
-       return  UIApplication.shared.statusBarOrientation
+    guard #available(iOS 13.0, *) else {
+        return  UIApplication.shared.statusBarOrientation
     }
+    return UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
 }
 
 struct PBLayout {
@@ -137,9 +112,8 @@ func showAlertView(_ message: String, _ sender: UIViewController?) {
 }
 
 func canAddModel(_ model: PBPhotoModel, currentSelectCount: Int, sender: UIViewController?, showAlert: Bool = true) -> Bool {
-    guard (PhotoConfiguration.default().canSelectAsset?(model.asset) ?? true) else {
-        return false
-    }
+    let canSelectAsset = PhotoConfiguration.default().canSelectAsset?(model.asset) ?? true
+    guard canSelectAsset else { return false }
     
     if currentSelectCount >= PhotoConfiguration.default().maxSelectCount {
         if showAlert {
@@ -148,10 +122,10 @@ func canAddModel(_ model: PBPhotoModel, currentSelectCount: Int, sender: UIViewC
         }
         return false
     }
-    if currentSelectCount > 0 {
-        if !PhotoConfiguration.default().allowMixSelect, model.type == .video {
-            return false
-        }
+    if currentSelectCount > 0,
+       !PhotoConfiguration.default().allowMixSelect,
+       model.type == .video {
+        return false
     }
     if model.type == .video {
         if model.second > PhotoConfiguration.default().maxSelectVideoDuration {
@@ -173,31 +147,36 @@ func canAddModel(_ model: PBPhotoModel, currentSelectCount: Int, sender: UIViewC
 }
 
 func markSelected(source: inout [PBPhotoModel], selected: inout [PBPhotoModel]) {
-    guard selected.count > 0 else {
-        return
-    }
+    guard selected.count > 0 else { return }
     
-    var selIds: [String: Bool] = [:]
-    var selEditImage: [String: UIImage] = [:]
-    var selEditModel: [String: PBEditImageModel] = [:]
-    var selIdAndIndex: [String: Int] = [:]
+    var selIds = [String: Bool]()
+    var selEditImage = [String: UIImage]()
+    var selEditModel = [String: PBEditImageModel] ()
+    var selIdAndIndex = [String: Int]()
     
-    for (index, m) in selected.enumerated() {
+    selected.enumerated().forEach { (index, m) in
         selIds[m.ident] = true
         selEditImage[m.ident] = m.editImage
         selEditModel[m.ident] = m.editImageModel
         selIdAndIndex[m.ident] = index
     }
+//    for (index, m) in selected.enumerated() {
+//        selIds[m.ident] = true
+//        selEditImage[m.ident] = m.editImage
+//        selEditModel[m.ident] = m.editImageModel
+//        selIdAndIndex[m.ident] = index
+//    }
     
     source.forEach { (m) in
-        if selIds[m.ident] == true {
-            m.isSelected = true
-            m.editImage = selEditImage[m.ident]
-            m.editImageModel = selEditModel[m.ident]
-            selected[selIdAndIndex[m.ident]!] = m
-        } else {
+        guard selIds[m.ident] == true else {
             m.isSelected = false
+            return
         }
+        
+        m.isSelected = true
+        m.editImage = selEditImage[m.ident]
+        m.editImageModel = selEditModel[m.ident]
+        selected[selIdAndIndex[m.ident]!] = m
     }
 }
 
@@ -266,4 +245,3 @@ extension String {
         return CGSize(width: ceil(size.width), height: ceil(size.height))
     }
 }
-
