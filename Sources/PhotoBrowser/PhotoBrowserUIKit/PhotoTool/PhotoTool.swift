@@ -221,11 +221,13 @@ extension Bundle {
         candidates.append(Bundle.module.bundleURL)
         #endif
 
-        for candidate in candidates {
-            if let candicate = candidate,
-               let bundlePath = candidate.appendingPathComponent(bundleName + ".bundle"),
-               let bundle = Bundle(url: bundlePath) {
-                return bundle
+        for cand in candidates {
+            if let candidate = cand {
+                let bundlePath = candidate.appendingPathComponent(bundleName + ".bundle")
+                if let bundle = Bundle(url: bundlePath) {
+                    return bundle
+                }
+                
             }
         }
         return nil
