@@ -69,7 +69,8 @@ func getSpringAnimation() -> CAKeyframeAnimation {
 }
 
 func getImage(_ named: String) -> UIImage? {
-    return UIImage(named: named, in: Bundle.pb_module, compatibleWith: nil)
+//    return UIImage(named: named, in: Bundle.pb_module, compatibleWith: nil)
+    return UIImage(named: named)
 }
 
 func isLandscape() -> Bool {
