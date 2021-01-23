@@ -203,6 +203,8 @@ func markSelected(source: inout [PBPhotoModel], selected: inout [PBPhotoModel]) 
 
 extension Bundle {
     static var pb_module: Bundle? = {
+        return Bundle.module
+        
         let bundleName = "PhotoBrowser"
 
         var candidates = [
