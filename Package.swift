@@ -28,5 +28,6 @@ let package = Package(
         .testTarget(
             name: "PhotoBrowserTests",
             dependencies: []),
-    ]
+    ],
+    swiftLanguageVersions: [.v5]
 )

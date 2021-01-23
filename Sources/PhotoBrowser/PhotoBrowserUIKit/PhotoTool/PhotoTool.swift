@@ -216,10 +216,10 @@ extension Bundle {
             Bundle.main.bundleURL,
         ]
         
-        #if SWIFT_PACKAGE
-        // For SWIFT_PACKAGE.
+//        #if SWIFT_PACKAGE
+//        // For SWIFT_PACKAGE.
         candidates.append(Bundle.module.bundleURL)
-        #endif
+//        #endif
 
         for candidate in candidates {
             let bundlePath = candidate?.appendingPathComponent(bundleName + ".bundle")
