@@ -223,7 +223,7 @@ extension Bundle {
 
         for candidate in candidates {
             let bundlePath = candidate?.appendingPathComponent(bundleName + ".bundle")
-            if let bundle = bundlePath.flatMap(Bundle.init(url:)) {
+            if let url = URL(string: bundlePath), let bundle = Bundle(url: url) {
                 return bundle
             }
         }
