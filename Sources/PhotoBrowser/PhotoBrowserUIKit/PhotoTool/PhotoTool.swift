@@ -209,16 +209,16 @@ extension Bundle {
             Bundle.main.resourceURL,
 
             // Bundle should be present here when the package is linked into a framework.
-//            Bundle(for: PhotoPreviewSheet.self).resourceURL,
+//            Bundle(for: PBPhotoPreviewSheet.self).resourceURL,
 
             // For command-line tools.
             Bundle.main.bundleURL,
         ]
         
-//        #if SWIFT_PACKAGE
-//        // For SWIFT_PACKAGE.
-//        candidates.append(Bundle.module.bundleURL)
-//        #endif
+        #if SWIFT_PACKAGE
+        // For SWIFT_PACKAGE.
+        candidates.append(Bundle.pb_module?.bundleURL)
+        #endif
 
         for candidate in candidates {
             let bundlePath = candidate?.appendingPathComponent(bundleName + ".bundle")
