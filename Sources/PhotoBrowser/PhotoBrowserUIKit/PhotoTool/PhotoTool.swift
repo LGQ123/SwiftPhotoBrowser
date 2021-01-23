@@ -217,7 +217,7 @@ extension Bundle {
         
         #if SWIFT_PACKAGE
         // For SWIFT_PACKAGE.
-        candidates.append(Bundle.pb_module?.bundleURL)
+//        candidates.append(Bundle.pb_module?.bundleURL)
         #endif
 
         for candidate in candidates {
