@@ -538,7 +538,7 @@ class PBVideoPreviewCell: PBPreviewBaseCell {
         })
         
         videoRequestID = PBPhotoManager.fetchVideo(for: model.asset, progress: { [weak self] (progress, _, _, _) in
-            self?.progressView.progress = progress
+            self?.progressView.progress = CGFloat(progress)
             if progress >= 1 {
                 self?.progressView.isHidden = true
             } else {
@@ -869,7 +869,7 @@ class PBPreviewView: UIView {
             resetSubViewSize()
         } else {
             imageRequestID = PBPhotoManager.fetchImage(for: model.asset, size: requestPhotoSize(gif: false), progress: { [weak self] (progress, _, _, _) in
-                self?.progressView.progress = progress
+                self?.progressView.progress = CGFloat(progress)
                 if progress >= 1 {
                     self?.progressView.isHidden = true
                 } else {
@@ -914,7 +914,7 @@ class PBPreviewView: UIView {
         imageView.layer.timeOffset = 0
         imageView.layer.beginTime = 0
         gifImageRequestID = PBPhotoManager.fetchOriginalImageData(for: model.asset, progress: { [weak self] (progress, _, _, _) in
-            self?.progressView.progress = progress
+            self?.progressView.progress = CGFloat(progress)
             if progress >= 1 {
                 self?.progressView.isHidden = true
             } else {

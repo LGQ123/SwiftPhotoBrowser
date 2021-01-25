@@ -243,11 +243,11 @@ open class PBPhotoPreviewSheet: UIView {
         self.animate = animate
         self.sender = sender
         
-        let status = PHPhotoLibrary.authorizationStatus()
+        let status = PBPhotoManager.authorizationStatus()
         if status == .restricted || status == .denied {
             showLibratyAuthority()
         } else if status == .notDetermined {
-            PHPhotoLibrary.requestAuthorization { (status) in
+            PBPhotoManager.requestAuthorization { (status) in
                 DispatchQueue.main.async {
                     if status == .denied {
                         self.showLibratyAuthority()
@@ -274,8 +274,8 @@ open class PBPhotoPreviewSheet: UIView {
         }
         
         //iOS14 有限照片 监听相册更改
-        if #available(iOS 14.0, *), preview, PHPhotoLibrary.authorizationStatus(for: .readWrite) == .limited {
-            PHPhotoLibrary.shared().register(self)
+        if #available(iOS 14.0, *), preview, PBPhotoManager.authorizationStatus(for: .readWrite) == .limited {
+            PBPhotoManager.register(self)
         }
     }
     
@@ -386,7 +386,7 @@ open class PBPhotoPreviewSheet: UIView {
     }
     
     @objc func photoLibraryBtnClick() {
-        PHPhotoLibrary.shared().unregisterChangeObserver(self)
+        PBPhotoManager.unregisterChangeObserver(self)
         animate = false
         showThumbnailViewController()
     }
@@ -1006,7 +1006,7 @@ extension PBPhotoPreviewSheet: UIImagePickerControllerDelegate, UINavigationCont
 extension PBPhotoPreviewSheet: PHPhotoLibraryChangeObserver {
     
     public func photoLibraryDidChange(_ changeInstance: PHChange) {
-        PHPhotoLibrary.shared().unregisterChangeObserver(self)
+        PBPhotoManager.unregisterChangeObserver(self)
         DispatchQueue.main.async {
             self.loadPhotos()
         }

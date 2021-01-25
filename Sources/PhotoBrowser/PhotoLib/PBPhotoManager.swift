@@ -7,7 +7,7 @@
 
 import UIKit
 import Photos
-
+import PhotosUI
 open class PBPhotoManager: NSObject {
     
     /// 保存图像到相册
@@ -202,7 +202,7 @@ open class PBPhotoManager: NSObject {
     ///   - completion: 下载完成回调 返回图片  是否是低质量
     /// - Returns: 请求的数字标识符。如果需要在请求完成之前取消请求，请将此标识符传递给cancelImageRequest:方法。
     @discardableResult
-    open class func fetchImage(for asset: PHAsset, size: CGSize, progress: ( (CGFloat, Error?, UnsafeMutablePointer<ObjCBool>, [AnyHashable : Any]?) -> Void )? = nil, completion: @escaping ( (UIImage?, Bool) -> Void )) -> PHImageRequestID {
+    open class func fetchImage(for asset: PHAsset, size: CGSize, progress: (PHAssetImageProgressHandler)? = nil, completion: @escaping ( (UIImage?, Bool) -> Void )) -> PHImageRequestID {
         return self.fetchImage(for: asset, size: size, resizeMode: .fast, progress: progress, completion: completion)
     }
     
@@ -213,7 +213,7 @@ open class PBPhotoManager: NSObject {
     ///   - completion: 下载完成回调 返回图片  是否是低质量
     /// - Returns: 请求的数字标识符。如果需要在请求完成之前取消请求，请将此标识符传递给cancelImageRequest:方法。
     @discardableResult
-    open class func fetchOriginalImage(for asset: PHAsset, progress: ( (CGFloat, Error?, UnsafeMutablePointer<ObjCBool>, [AnyHashable : Any]?) -> Void )? = nil, completion: @escaping ( (UIImage?, Bool) -> Void)) -> PHImageRequestID {
+    open class func fetchOriginalImage(for asset: PHAsset, progress: (PHAssetImageProgressHandler)? = nil, completion: @escaping ( (UIImage?, Bool) -> Void)) -> PHImageRequestID {
         return self.fetchImage(for: asset, size: PHImageManagerMaximumSize, resizeMode: .fast, progress: progress, completion: completion)
     }
     
@@ -224,7 +224,7 @@ open class PBPhotoManager: NSObject {
     ///   - completion: 下载完成回调 返回图片data  是否是低质量
     /// - Returns: 请求的数字标识符。如果需要在请求完成之前取消请求，请将此标识符传递给cancelImageRequest:方法。
     @discardableResult
-    open class func fetchOriginalImageData(for asset: PHAsset, progress: ( (CGFloat, Error?, UnsafeMutablePointer<ObjCBool>, [AnyHashable : Any]?) -> Void )? = nil, completion: @escaping ( (Data, [AnyHashable: Any]?, Bool) -> Void)) -> PHImageRequestID {
+    open class func fetchOriginalImageData(for asset: PHAsset, progress: (PHAssetImageProgressHandler)? = nil, completion: @escaping ( (Data, [AnyHashable: Any]?, Bool) -> Void)) -> PHImageRequestID {
         let option = PHImageRequestOptions()
         if (asset.value(forKey: "filename") as? String)?.hasSuffix("GIF") == true {
             option.version = .original
@@ -234,7 +234,7 @@ open class PBPhotoManager: NSObject {
         option.deliveryMode = .highQualityFormat
         option.progressHandler = { (pro, error, stop, info) in
             DispatchQueue.main.async {
-                progress?(CGFloat(pro), error, stop, info)
+                progress?(pro, error, stop, info)
             }
         }
         
@@ -282,12 +282,12 @@ open class PBPhotoManager: NSObject {
     ///   - completion: 下载完成回调 返回AVPlayerItem  info  是否是低质量
     /// - Returns: 请求的数字标识符。如果需要在请求完成之前取消请求，请将此标识符传递给cancelImageRequest:方法。
     @discardableResult
-    open class func fetchVideo(for asset: PHAsset, progress: ( (CGFloat, Error?, UnsafeMutablePointer<ObjCBool>, [AnyHashable : Any]?) -> Void )? = nil, completion: @escaping ( (AVPlayerItem?, [AnyHashable: Any]?, Bool) -> Void )) -> PHImageRequestID {
+    open class func fetchVideo(for asset: PHAsset, progress: (PHAssetImageProgressHandler)? = nil, completion: @escaping ( (AVPlayerItem?, [AnyHashable: Any]?, Bool) -> Void )) -> PHImageRequestID {
         let option = PHVideoRequestOptions()
         option.isNetworkAccessAllowed = true
         option.progressHandler = { (pro, error, stop, info) in
             DispatchQueue.main.async {
-                progress?(CGFloat(pro), error, stop, info)
+                progress?(pro, error, stop, info)
             }
         }
         
@@ -314,13 +314,13 @@ open class PBPhotoManager: NSObject {
     }
     
     /// 获取图片.
-    private class func fetchImage(for asset: PHAsset, size: CGSize, resizeMode: PHImageRequestOptionsResizeMode, progress: ( (CGFloat, Error?, UnsafeMutablePointer<ObjCBool>, [AnyHashable : Any]?) -> Void )? = nil, completion: @escaping ( (UIImage?, Bool) -> Void )) -> PHImageRequestID {
+    private class func fetchImage(for asset: PHAsset, size: CGSize, resizeMode: PHImageRequestOptionsResizeMode, progress: (PHAssetImageProgressHandler)? = nil, completion: @escaping ( (UIImage?, Bool) -> Void )) -> PHImageRequestID {
         let option = PHImageRequestOptions()
         option.resizeMode = resizeMode
         option.isNetworkAccessAllowed = true
         option.progressHandler = { (pro, error, stop, info) in
             DispatchQueue.main.async {
-                progress?(CGFloat(pro), error, stop, info)
+                progress?(pro, error, stop, info)
             }
         }
         
@@ -379,24 +379,71 @@ open class PBPhotoManager: NSObject {
             completion(path)
         }
     }
-    
 }
 
 
-extension PBPhotoManager {
+public extension PBPhotoManager {
     
     
     /// 是否授权相册
     /// - Returns: 是否授权相册
-    public class func havePhotoLibratyAuthority() -> Bool {
+    class func havePhotoLibratyAuthority() -> Bool {
         
         let status = PHPhotoLibrary.authorizationStatus()
-        if status == .denied || status == .restricted {
+        if status == .denied || status == .restricted || status == .notDetermined {
             return false
         }
         return true
     }
     
+    /// 返回权限状态
+    /// - Returns: PHAuthorizationStatus
+    class func authorizationStatus() -> PHAuthorizationStatus {
+        let status = PHPhotoLibrary.authorizationStatus()
+        return status
+    }
+    
+    /// Replaces \c +authorizationStatus to support add-only/read-write access level status
+    @available(iOS 14, *)
+    class func authorizationStatus(for accessLevel: PHAccessLevel) -> PHAuthorizationStatus {
+        let status = PHPhotoLibrary.authorizationStatus(for: accessLevel)
+        return status
+    }
+    
+    /// 授权
+    /// - Parameter handler: PHAuthorizationStatus
+    class func requestAuthorization(_ handler: @escaping (PHAuthorizationStatus) -> Void) {
+        let status = PBPhotoManager.authorizationStatus()
+        if status == .notDetermined {
+            PHPhotoLibrary.requestAuthorization { (status) in
+                DispatchQueue.main.async {
+                    handler(status)
+                }
+            }
+        } else {
+            handler(status)
+        }
+    }
+    
+    /// 注册 observer
+    /// - Parameter observer: PHPhotoLibraryChangeObserver
+    class func register(_ observer: PHPhotoLibraryChangeObserver) {
+        PHPhotoLibrary.shared().register(observer)
+    }
+    
+    /// 取消 observer
+    /// - Parameter observer: PHPhotoLibraryChangeObserver
+    class func unregisterChangeObserver(_ observer: PHPhotoLibraryChangeObserver) {
+        PHPhotoLibrary.shared().unregisterChangeObserver(observer)
+    }
+    
+    
+    /// iOS14 打开有限选择
+    /// - Parameter controller: 从哪个controller打开
+    @available(iOS 14, *)
+    class func presentLimitedLibraryPicker(from controller: UIViewController) {
+        PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: controller)
+    }
 }
 
 extension PHAsset {

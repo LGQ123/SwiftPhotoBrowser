@@ -14,7 +14,7 @@ class PBFetchImageOperation: Operation {
     
     let isOriginal: Bool
     
-    let progress: ( (CGFloat, Error?, UnsafeMutablePointer<ObjCBool>, [AnyHashable : Any]?) -> Void )?
+    let progress: (PHAssetImageProgressHandler)?
     
     let completion: ( (UIImage?, PHAsset?) -> Void )
     
@@ -57,7 +57,7 @@ class PBFetchImageOperation: Operation {
         return pri_isCancelled
     }
     
-    init(model: PBPhotoModel, isOriginal: Bool, progress: ( (CGFloat, Error?, UnsafeMutablePointer<ObjCBool>, [AnyHashable : Any]?) -> Void )? = nil, completion: @escaping ( (UIImage?, PHAsset?) -> Void )) {
+    init(model: PBPhotoModel, isOriginal: Bool, progress: (PHAssetImageProgressHandler)? = nil, completion: @escaping ( (UIImage?, PHAsset?) -> Void )) {
         self.model = model
         self.isOriginal = isOriginal
         self.progress = progress

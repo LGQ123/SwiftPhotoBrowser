@@ -7,7 +7,7 @@
 
 import UIKit
 import Photos
-
+import PhotoLib
 class PBEmbedAlbumListView: UIView {
 
     static let rowH: CGFloat = 60
@@ -143,7 +143,7 @@ class PBEmbedAlbumListView: UIView {
         }
         
         if reloadAlbumList {
-            if #available(iOS 14.0, *), PHPhotoLibrary.authorizationStatus(for: .readWrite) == .limited {
+            if #available(iOS 14.0, *), PBPhotoManager.authorizationStatus(for: .readWrite) == .limited {
                 loadAlbumList {
                     animateShow()
                 }

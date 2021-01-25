@@ -249,7 +249,7 @@ class PBThumbnailPhotoCell: UICollectionViewCell {
         bigImageReqeustID = PBPhotoManager.fetchOriginalImageData(for: model.asset, progress: { [weak self] (progress, error, _, _) in
             if self?.model.isSelected == true {
                 self?.progressView.isHidden = false
-                self?.progressView.progress = max(0.1, progress)
+                self?.progressView.progress = CGFloat(max(0.1, progress))
                 self?.imageView.alpha = 0.5
                 if progress >= 1 {
                     self?.resetProgressViewStatus()

@@ -7,7 +7,7 @@
 
 import UIKit
 import Photos
-
+import PhotoLib
 class PBAlbumListController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var navView: UIView!
@@ -32,7 +32,7 @@ class PBAlbumListController: UIViewController, UITableViewDataSource, UITableVie
         super.viewDidLoad()
 
         setupUI()
-        PHPhotoLibrary.shared().register(self)
+        PBPhotoManager.register(self)
     }
     
     override func viewWillAppear(_ animated: Bool) {

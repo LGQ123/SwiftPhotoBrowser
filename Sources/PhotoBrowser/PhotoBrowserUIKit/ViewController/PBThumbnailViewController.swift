@@ -103,7 +103,7 @@ class PBThumbnailViewController: UIViewController {
     
     @available(iOS 14, *)
     var showAddPhotoCell: Bool {
-        PHPhotoLibrary.authorizationStatus(for: .readWrite) == .limited && PhotoConfiguration.default().showAddPhotoButton && albumList.isCameraRoll
+        PBPhotoManager.authorizationStatus(for: .readWrite) == .limited && PhotoConfiguration.default().showAddPhotoButton && albumList.isCameraRoll
     }
     
     /// 照相按钮+添加图片按钮的数量
@@ -148,8 +148,8 @@ class PBThumbnailViewController: UIViewController {
         loadPhotos()
         
         // 注册相册更改通知
-        if #available(iOS 14.0, *), PHPhotoLibrary.authorizationStatus(for: .readWrite) == .limited {
-            PHPhotoLibrary.shared().register(self)
+        if #available(iOS 14.0, *), PBPhotoManager.authorizationStatus(for: .readWrite) == .limited {
+            PBPhotoManager.register(self)
         }
     }
     
@@ -833,7 +833,7 @@ extension PBThumbnailViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        if #available(iOS 14.0, *), PHPhotoLibrary.authorizationStatus(for: .readWrite) == .limited, PhotoConfiguration.default().showEnterSettingFooter, albumList.isCameraRoll {
+        if #available(iOS 14.0, *), PBPhotoManager.authorizationStatus(for: .readWrite) == .limited, PhotoConfiguration.default().showEnterSettingFooter, albumList.isCameraRoll {
             return CGSize(width: collectionView.bounds.width, height: 50)
         } else {
             return .zero
@@ -953,7 +953,7 @@ extension PBThumbnailViewController: UICollectionViewDataSource, UICollectionVie
         }
         if #available(iOS 14, *) {
             if c is PBAddPhotoCell {
-                PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
+                PBPhotoManager.presentLimitedLibraryPicker(from: self)
                 return
             }
         }
