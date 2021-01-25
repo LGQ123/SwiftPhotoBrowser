@@ -254,7 +254,7 @@ public class PBEditImageViewController: UIViewController {
         
         topShadowView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 150)
         topShadowLayer.frame = self.topShadowView.bounds
-        cancelBtn.frame = CGRect(x: 30, y: insets.top+10, width: 28, height: 28)
+        cancelBtn.frame = CGRect(x: 20, y: insets.top+10, width: 28, height: 28)
         
         bottomShadowView.frame = CGRect(x: 0, y: self.view.frame.height-140-insets.bottom, width: self.view.frame.width, height: 140+insets.bottom)
         bottomShadowLayer.frame = self.bottomShadowView.bounds
@@ -267,7 +267,7 @@ public class PBEditImageViewController: UIViewController {
         let toolY: CGFloat = 85
         
         let doneBtnH = PBLayout.bottomToolBtnH
-        let doneBtnW:CGFloat = 40.0
+        let doneBtnW:CGFloat = 50.0
         doneBtn.frame = CGRect(x: view.frame.width-20-doneBtnW, y: toolY-2, width: doneBtnW, height: doneBtnH)
         
         editToolCollectionView.frame = CGRect(x: 20, y: toolY, width: view.bounds.width - 20 - 20 - doneBtnW - 20, height: 30)

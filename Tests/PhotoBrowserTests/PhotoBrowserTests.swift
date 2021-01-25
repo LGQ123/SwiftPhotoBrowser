@@ -1,5 +1,5 @@
 import XCTest
-@testable import PhotoBrowser
+//@testable import PhotoBrowser
 
 final class PhotoBrowserTests: XCTestCase {
     func testExample() {

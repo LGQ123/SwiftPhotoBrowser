@@ -210,7 +210,7 @@ class PBPhotoPreviewController: UIViewController {
         
         backBtn = UIButton(type: .custom)
         backBtn.setImage(getImage("pb_navBack"), for: .normal)
-        backBtn.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
+        backBtn.imageEdgeInsets = UIEdgeInsets(top: 0, left: -25, bottom: 0, right: 0)
         backBtn.addTarget(self, action: #selector(backBtnClick), for: .touchUpInside)
         navView.addSubview(backBtn)
         
