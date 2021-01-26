@@ -186,7 +186,7 @@ class PBPhotoPreviewController: UIViewController {
         if selCount > 0 {
             doneTitle += "(" + String(selCount) + ")"
         }
-        let doneBtnW = doneTitle.pb_boundingRect(font: PBLayout.bottomToolTitleFont, limitSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: 30)).width + 20
+        let doneBtnW = doneTitle.boundingRect(font: PBLayout.bottomToolTitleFont, limitSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: 30)).width + 20
         doneBtn.frame = CGRect(x: bottomView.bounds.width-doneBtnW-15, y: btnY, width: doneBtnW, height: btnH)
     }
     
@@ -217,7 +217,7 @@ class PBPhotoPreviewController: UIViewController {
         selectBtn = UIButton(type: .custom)
         selectBtn.setImage(getImage("pb_btn_circle"), for: .normal)
         selectBtn.setImage(getImage("pb_btn_selected"), for: .selected)
-        selectBtn.pb_enlargeValidTouchArea(inset: 10)
+        selectBtn.enlargeValidTouchArea(inset: 10)
         selectBtn.addTarget(self, action: #selector(selectBtnClick), for: .touchUpInside)
         navView.addSubview(selectBtn)
         

@@ -9,7 +9,7 @@ import UIKit
 // MARK: data 转 gif image
 extension UIImage {
     
-    class func pb_animateGifImage(data: Data) -> UIImage? {
+    class func animateGifImage(data: Data) -> UIImage? {
         guard let source = CGImageSourceCreateWithData(data as CFData, nil) else {
             return nil
         }
@@ -20,19 +20,6 @@ extension UIImage {
         if count <= 1 {
             animateImage = UIImage(data: data)
         } else {
-//            var images: [UIImage] = []
-//            var duration: Double = 0
-//
-//            for i in 0..<count {
-//                if let image = CGImageSourceCreateImageAtIndex(source, i, nil) {
-//                    images.append(UIImage(cgImage: image, scale: UIScreen.main.scale, orientation: .up))
-//                }
-//                duration += UIImage.pb_delayForImageAtIndex(i, source: source)
-//            }
-//            if duration == 0 {
-//                duration = (1.0 / 10.0) * Double(count)
-//            }
-//            animateImage = UIImage.animatedImage(with: images, duration: duration)
             
             var images = [CGImage]()
             var delays = [Int]()
@@ -42,7 +29,7 @@ extension UIImage {
                     images.append(image)
                 }
 
-                let delaySeconds = UIImage.pb_delayForImageAtIndex(Int(i),
+                let delaySeconds = UIImage.delayForImageAtIndex(Int(i),
                     source: source)
                 delays.append(Int(delaySeconds * 1000.0)) // Seconds to ms
             }
@@ -57,7 +44,7 @@ extension UIImage {
                 return sum
             }()
 
-            let gcd = pb_gcdForArray(delays)
+            let gcd = gcdForArray(delays)
             var frames = [UIImage]()
 
             var frame: UIImage
@@ -78,7 +65,7 @@ extension UIImage {
         return animateImage
     }
     
-    class func pb_delayForImageAtIndex(_ index: Int, source: CGImageSource!) -> Double {
+    class func delayForImageAtIndex(_ index: Int, source: CGImageSource!) -> Double {
         var delay = 0.1
         
         let cfProperties = CGImageSourceCopyPropertiesAtIndex(source, index, nil)
@@ -110,7 +97,7 @@ extension UIImage {
     }
     
     
-    class func pb_gcdForArray(_ array: Array<Int>) -> Int {
+    class func gcdForArray(_ array: Array<Int>) -> Int {
         if array.isEmpty {
             return 1
         }
@@ -118,13 +105,13 @@ extension UIImage {
         var gcd = array[0]
         
         for val in array {
-            gcd = UIImage.pb_gcdForPair(val, gcd)
+            gcd = UIImage.gcdForPair(val, gcd)
         }
         
         return gcd
     }
     
-    class func pb_gcdForPair(_ a1: Int?, _ b1: Int?) -> Int {
+    class func gcdForPair(_ a1: Int?, _ b1: Int?) -> Int {
         var a = a1
         var b = b1
         if b == nil || a == nil {

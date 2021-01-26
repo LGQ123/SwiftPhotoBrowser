@@ -91,7 +91,7 @@ class PBFetchImageOperation: Operation {
         if PhotoConfiguration.default().allowSelectGif, model.type == .gif {
             PBPhotoManager.fetchOriginalImageData(for: model.asset) { [weak self] (data, _, isDegraded) in
                 if !isDegraded {
-                    let image = UIImage.pb_animateGifImage(data: data)
+                    let image = UIImage.animateGifImage(data: data)
                     self?.completion(image, nil)
                     self?.fetchFinish()
                 }

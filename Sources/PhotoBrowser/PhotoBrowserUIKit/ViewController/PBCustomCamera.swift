@@ -246,7 +246,7 @@ open class PBCustomCamera: UIViewController, CAAnimationDelegate {
         dismissBtn.setImage(getImage("pb_arrow_down"), for: .normal)
         dismissBtn.addTarget(self, action: #selector(dismissBtnClick), for: .touchUpInside)
         dismissBtn.adjustsImageWhenHighlighted = false
-        dismissBtn.pb_enlargeValidTouchArea(inset: 30)
+        dismissBtn.enlargeValidTouchArea(inset: 30)
         bottomView.addSubview(dismissBtn)
         if #available(iOS 13.0, *) {
             largeCircleView = UIVisualEffectView(effect: UIBlurEffect(style: .systemThinMaterialLight))
@@ -290,7 +290,7 @@ open class PBCustomCamera: UIViewController, CAAnimationDelegate {
         retakeBtn.addTarget(self, action: #selector(retakeBtnClick), for: .touchUpInside)
         retakeBtn.isHidden = true
         retakeBtn.adjustsImageWhenHighlighted = false
-        retakeBtn.pb_enlargeValidTouchArea(inset: 30)
+        retakeBtn.enlargeValidTouchArea(inset: 30)
         view.addSubview(retakeBtn)
         
         let cameraCount = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .unspecified).devices.count
@@ -298,7 +298,7 @@ open class PBCustomCamera: UIViewController, CAAnimationDelegate {
         switchCameraBtn.setImage(getImage("pb_toggle_camera"), for: .normal)
         switchCameraBtn.addTarget(self, action: #selector(switchCameraBtnClick), for: .touchUpInside)
         switchCameraBtn.adjustsImageWhenHighlighted = false
-        switchCameraBtn.pb_enlargeValidTouchArea(inset: 30)
+        switchCameraBtn.enlargeValidTouchArea(inset: 30)
         switchCameraBtn.isHidden = cameraCount <= 1
         view.addSubview(switchCameraBtn)
         

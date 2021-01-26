@@ -926,7 +926,7 @@ class PBPreviewView: UIView {
             }
             if !isDegraded {
                 self?.fetchGifDone = true
-                self?.imageView.image = UIImage.pb_animateGifImage(data: data)
+                self?.imageView.image = UIImage.animateGifImage(data: data)
                 self?.resetSubViewSize()
             }
         })

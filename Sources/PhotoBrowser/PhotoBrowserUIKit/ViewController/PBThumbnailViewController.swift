@@ -624,7 +624,7 @@ class PBThumbnailViewController: UIViewController {
         if selCount > 0 {
             doneTitle += "(" + String(selCount) + ")"
         }
-        let doneBtnW = doneTitle.pb_boundingRect(font: PBLayout.bottomToolTitleFont, limitSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: 30)).width + 20
+        let doneBtnW = doneTitle.boundingRect(font: PBLayout.bottomToolTitleFont, limitSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: 30)).width + 20
         doneBtn.frame = CGRect(x: bottomView.bounds.width-doneBtnW-15, y: 7, width: doneBtnW, height: PBLayout.bottomToolBtnH)
     }
     
@@ -1224,7 +1224,7 @@ class PBEmbedAlbumListNavView: UIView {
         
         navBlurView?.frame = bounds
         
-        let albumTitleW = min(bounds.width / 2, title.pb_boundingRect(font: PBLayout.navTitleFont, limitSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: 44)).width)
+        let albumTitleW = min(bounds.width / 2, title.boundingRect(font: PBLayout.navTitleFont, limitSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: 44)).width)
         let titleBgControlW = albumTitleW + PBEmbedAlbumListNavView.arrowH + 20
         
         UIView.animate(withDuration: 0.25) {
@@ -1334,7 +1334,7 @@ class PBExternalAlbumListNavView: UIView {
         navBlurView?.frame = bounds
         
         backBtn.frame = CGRect(x: insets.left, y: insets.top, width: 60, height: 44)
-        let albumTitleW = min(bounds.width / 2, title.pb_boundingRect(font: PBLayout.navTitleFont, limitSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: 44)).width)
+        let albumTitleW = min(bounds.width / 2, title.boundingRect(font: PBLayout.navTitleFont, limitSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: 44)).width)
         albumTitleLabel.frame = CGRect(x: (frame.width-albumTitleW)/2, y: insets.top, width: albumTitleW, height: 44)
         let cancelBtnW: CGFloat = 60.0
         cancelBtn.frame = CGRect(x: frame.width-insets.right-cancelBtnW, y: insets.top, width: cancelBtnW, height: 44)

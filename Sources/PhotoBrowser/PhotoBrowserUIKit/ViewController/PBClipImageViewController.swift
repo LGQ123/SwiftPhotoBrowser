@@ -297,14 +297,14 @@ class PBClipImageViewController: UIViewController {
         cancelBtn = UIButton(type: .custom)
         cancelBtn.setImage(getImage("pb_close"), for: .normal)
         cancelBtn.adjustsImageWhenHighlighted = false
-        cancelBtn.pb_enlargeValidTouchArea(inset: 20)
+        cancelBtn.enlargeValidTouchArea(inset: 20)
         cancelBtn.addTarget(self, action: #selector(cancelBtnClick), for: .touchUpInside)
         bottomToolView.addSubview(cancelBtn)
         
         revertBtn = UIButton(type: .custom)
         revertBtn.setTitleColor(.white, for: .normal)
         revertBtn.setTitle("还原", for: .normal)
-        revertBtn.pb_enlargeValidTouchArea(inset: 20)
+        revertBtn.enlargeValidTouchArea(inset: 20)
         revertBtn.titleLabel?.font = PBLayout.bottomToolTitleFont
         revertBtn.addTarget(self, action: #selector(revertBtnClick), for: .touchUpInside)
         bottomToolView.addSubview(revertBtn)
@@ -312,14 +312,14 @@ class PBClipImageViewController: UIViewController {
         doneBtn = UIButton(type: .custom)
         doneBtn.setImage(getImage("pb_right"), for: .normal)
         doneBtn.adjustsImageWhenHighlighted = false
-        doneBtn.pb_enlargeValidTouchArea(inset: 20)
+        doneBtn.enlargeValidTouchArea(inset: 20)
         doneBtn.addTarget(self, action: #selector(doneBtnClick), for: .touchUpInside)
         bottomToolView.addSubview(doneBtn)
         
         rotateBtn = UIButton(type: .custom)
         rotateBtn.setImage(getImage("pb_rotateimage"), for: .normal)
         rotateBtn.adjustsImageWhenHighlighted = false
-        rotateBtn.pb_enlargeValidTouchArea(inset: 20)
+        rotateBtn.enlargeValidTouchArea(inset: 20)
         rotateBtn.addTarget(self, action: #selector(rotateBtnClick), for: .touchUpInside)
         view.addSubview(rotateBtn)
         

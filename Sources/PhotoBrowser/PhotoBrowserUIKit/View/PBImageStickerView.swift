@@ -145,7 +145,7 @@ class PBImageStickerView: UIView, PBStickerViewAdditional {
         }
         
         // Rotate must be first when first layout.
-        self.transform = self.transform.rotated(by: self.originAngle.pb_toPi)
+        self.transform = self.transform.rotated(by: self.originAngle.toPi)
         
         if self.totalTranslationPoint != .zero {
             if self.originAngle == 90 {

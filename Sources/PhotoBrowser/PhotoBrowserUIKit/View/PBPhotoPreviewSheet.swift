@@ -83,7 +83,7 @@ open class PBPhotoPreviewSheet: UIView {
         setupUI()
         
         arrSelectedModels.removeAll()
-        selectedAssets.pb_removeDuplicate().forEach { (asset) in
+        selectedAssets.removeDuplicate().forEach { (asset) in
             if !PhotoConfiguration.default().allowMixSelect, asset.mediaType == .video {
                 return
             }
@@ -217,7 +217,7 @@ open class PBPhotoPreviewSheet: UIView {
     
     /// 传入已选择的assets，并直接跳到预览
     open func previewAssets(sender: UIViewController, assets: [PHAsset], index: Int, isOriginal: Bool, showBottomViewAndSelectBtn: Bool = true) {
-        let models = assets.pb_removeDuplicate().map { (asset) -> PBPhotoModel in
+        let models = assets.removeDuplicate().map { (asset) -> PBPhotoModel in
             let m = PBPhotoModel(asset: asset)
             m.isSelected = true
             return m

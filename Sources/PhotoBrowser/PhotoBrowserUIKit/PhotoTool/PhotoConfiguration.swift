@@ -105,9 +105,10 @@ open class PhotoConfiguration: NSObject {
         }
     }
     
-   
     private var pri_maxVideoSelectCount = 0
     /// 最多选取视频 仅在( allowMixSelect = true))时有效 默认0
+    /// pri_maxVideoSelectCount  默认值
+    /// 框架内部值处理max(minVideoSelectCount, min(pri_maxVideoSelectCount, maxSelectCount))
     open var maxVideoSelectCount: Int {
         set {
             pri_maxVideoSelectCount = newValue
@@ -122,6 +123,8 @@ open class PhotoConfiguration: NSObject {
     }
     private var pri_minVideoSelectCount = 0
     /// 最少选取视频 仅在( allowMixSelect = true))时有效 默认0
+    /// pri_minVideoSelectCount   默认值
+    /// 框架内部值处理min(maxSelectCount, max(pri_minVideoSelectCount, 0))
     open var minVideoSelectCount: Int {
         set {
             pri_minVideoSelectCount = newValue
@@ -154,6 +157,8 @@ open class PhotoConfiguration: NSObject {
     
     private var pri_allowTakePhotoInLibrary = true
     /// 是否允许在相册中拍照 默认true
+    /// pri_allowTakePhotoInLibrary  默认值
+    /// 框架内部处理值 pri_allowTakePhotoInLibrary && (allowTakePhoto || allowRecordVideo)
     open var allowTakePhotoInLibrary: Bool {
         set {
             pri_allowTakePhotoInLibrary = newValue
@@ -165,6 +170,8 @@ open class PhotoConfiguration: NSObject {
     
     private var pri_allowTakePhoto = true
     /// 是否允许拍照 默认true
+    /// pri_allowTakePhoto  默认值
+    /// 框架内部处理值 pri_allowTakePhoto && allowSelectImage
     open var allowTakePhoto: Bool {
         set {
             pri_allowTakePhoto = newValue
@@ -176,6 +183,8 @@ open class PhotoConfiguration: NSObject {
     
     private var pri_allowRecordVideo = true
     /// 是否允许拍视频 默认true
+    /// pri_allowRecordVideo  默认值
+    /// 框架内部处理值 pri_allowRecordVideo && allowSelectVideo
     open var allowRecordVideo: Bool {
         set {
             pri_allowRecordVideo = newValue
@@ -250,64 +259,42 @@ open class PhotoConfiguration: NSObject {
     /// 最小视频选择时间/seconds 默认0
     open var minSelectVideoDuration: Int = 0
     
-    private var pri_editImageTools: [EditImageTool] = [.draw, .clip, .imageSticker, .textSticker, .mosaic, .filter]
     /// 编辑图像工具 默认.draw, .clip, .imageSticker, .textSticker, .mosaic, .filter
-    open var editImageTools: [EditImageTool] {
-        set {
-            pri_editImageTools = newValue
-        }
-        get {
-            if pri_editImageTools.isEmpty {
-                return [.draw, .clip, .imageSticker, .textSticker, .mosaic, .filter]
-            } else {
-                return pri_editImageTools
+    open var editImageTools: [EditImageTool] = [.draw, .clip, .imageSticker, .textSticker, .mosaic, .filter] {
+        didSet {
+            if editImageTools.isEmpty {
+                editImageTools = [.draw, .clip, .imageSticker, .textSticker, .mosaic, .filter]
             }
         }
     }
     
-    private var pri_editImageDrawColors: [UIColor] = [.white, .black, RGB(241, 79, 79), RGB(243, 170, 78), RGB(80, 169, 56), RGB(30, 183, 243), RGB(139, 105, 234)]
     /// 图像编辑器绘制颜色 默认 .white, .black, RGB(241, 79, 79), RGB(243, 170, 78), RGB(80, 169, 56), RGB(30, 183, 243), RGB(139, 105, 234)
-    open var editImageDrawColors: [UIColor] {
-        set {
-            pri_editImageDrawColors = newValue
-        }
-        get {
-            if pri_editImageDrawColors.isEmpty {
-                return [.white, .black, RGB(241, 79, 79), RGB(243, 170, 78), RGB(80, 169, 56), RGB(30, 183, 243), RGB(139, 105, 234)]
-            } else {
-                return pri_editImageDrawColors
+    open var editImageDrawColors: [UIColor] = [.white, .black, RGB(241, 79, 79), RGB(243, 170, 78), RGB(80, 169, 56), RGB(30, 183, 243), RGB(139, 105, 234)] {
+        didSet {
+            if editImageDrawColors.isEmpty {
+                editImageDrawColors = [.white, .black, RGB(241, 79, 79), RGB(243, 170, 78), RGB(80, 169, 56), RGB(30, 183, 243), RGB(139, 105, 234)]
             }
         }
     }
     
     /// 默认绘制颜色 默认RGB(241, 79, 79)
     open var editImageDefaultDrawColor = RGB(241, 79, 79)
-    private var pri_editImageClipRatios: [PBImageClipRatio] = [.custom]
+    
     /// 图像编辑器的编辑比例 默认custom
-    open var editImageClipRatios: [PBImageClipRatio] {
-        set {
-            pri_editImageClipRatios = newValue
-        }
-        get {
-            if pri_editImageClipRatios.isEmpty {
-                return [.custom]
-            } else {
-                return pri_editImageClipRatios
+    open var editImageClipRatios: [PBImageClipRatio] = [.custom] {
+        didSet {
+            if editImageClipRatios.isEmpty {
+                editImageClipRatios = [.custom]
             }
         }
+        
     }
     
-    private var pri_textStickerTextColors: [UIColor] = [.white, .black, RGB(241, 79, 79), RGB(243, 170, 78), RGB(80, 169, 56), RGB(30, 183, 243), RGB(139, 105, 234)]
     /// 文字贴纸颜色 默认.white, .black, RGB(241, 79, 79), RGB(243, 170, 78), RGB(80, 169, 56), RGB(30, 183, 243), RGB(139, 105, 234)
-    open var textStickerTextColors: [UIColor] {
-        set {
-            pri_textStickerTextColors = newValue
-        }
-        get {
-            if pri_textStickerTextColors.isEmpty {
-                return [.white, .black, RGB(241, 79, 79), RGB(243, 170, 78), RGB(80, 169, 56), RGB(30, 183, 243), RGB(139, 105, 234)]
-            } else {
-                return pri_textStickerTextColors
+    open var textStickerTextColors: [UIColor] = [.white, .black, RGB(241, 79, 79), RGB(243, 170, 78), RGB(80, 169, 56), RGB(30, 183, 243), RGB(139, 105, 234)] {
+        didSet {
+            if textStickerTextColors.isEmpty {
+                textStickerTextColors = [.white, .black, RGB(241, 79, 79), RGB(243, 170, 78), RGB(80, 169, 56), RGB(30, 183, 243), RGB(139, 105, 234)]
             }
         }
     }
@@ -318,17 +305,11 @@ open class PhotoConfiguration: NSObject {
     /// 默认文本贴纸大小 默认30
     open var textStickerFontSize: CGFloat = 30
     
-    private var pri_filters: [PBFilter] = PBFilter.all
     /// 图像编辑器 默认all
-    open var filters: [PBFilter] {
-        set {
-            pri_filters = newValue
-        }
-        get {
-            if pri_filters.isEmpty {
-                return PBFilter.all
-            } else {
-                return pri_filters
+    open var filters: [PBFilter] = PBFilter.all {
+        didSet {
+            if filters.isEmpty {
+                filters = PBFilter.all
             }
         }
     }
@@ -367,7 +348,7 @@ open class PhotoConfiguration: NSObject {
     open var useCustomCamera = true
     
     private var pri_minRecordDuration: Int = 0
-    /// 最少录制时间
+    /// 最少录制时间 默认0   不可以<0
     open var minRecordDuration: Int {
         set {
             pri_minRecordDuration = max(0, newValue)
@@ -378,7 +359,7 @@ open class PhotoConfiguration: NSObject {
     }
     
     private var pri_maxRecordDuration: Int = 10
-    /// 最大录制时间
+    /// 最大录制时间 默认 10
     open var maxRecordDuration: Int {
         set {
             pri_maxRecordDuration = max(1, newValue)
@@ -388,36 +369,35 @@ open class PhotoConfiguration: NSObject {
         }
     }
     
-    /// 视频分辨率
+    /// 视频分辨率 默认 hd1280x720
     open var sessionPreset: PBCustomCamera.CaptureSessionPreset = .hd1280x720
     
-    /// 视频导出格式
+    /// 视频导出格式 默认 mov
     open var videoExportType: PBCustomCamera.VideoExportType = .mov
     
-    /// flahs模式
+    /// flahs模式 默认 off
     open var cameraFlashMode: PBCustomCamera.CameraFlashMode = .off
     
-    /// Hud style.
+    /// Hud style. 默认light
     open var hudStyle: PBProgressHUD.HUDStyle = .lightBlur
     
-    /// Navigation bar blur effect.
+    /// Navigation bar blur effect. 默认 dark
     open var navViewBlurEffect: UIBlurEffect? = UIBlurEffect(style: .dark)
     
-    /// Bottom too bar blur effect.
+    /// Bottom too bar blur effect. 默认 dark
     open var bottomToolViewBlurEffect: UIBlurEffect? = UIBlurEffect(style: .dark)
     
     /// 主题颜色
     open var themeColorDeploy: PBPhotoThemeColorDeploy = .default()
     
-    
     /// 模块是否允许选择
     open var canSelectAsset: ( (PHAsset) -> Bool )?
     
     
-    /// iOS14 有限照片模式下是否显示 +
+    /// iOS14 有限照片模式下是否显示 + 默认 true
     open var showAddPhotoButton: Bool = true
     
-    /// iOS14 有限模式 是否显示 跳转设置
+    /// iOS14 有限模式 是否显示 跳转设置 默认true
     open var showEnterSettingFooter = true
 }
 

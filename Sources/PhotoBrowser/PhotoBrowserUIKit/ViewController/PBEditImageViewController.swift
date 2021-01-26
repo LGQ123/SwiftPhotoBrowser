@@ -387,7 +387,7 @@ public class PBEditImageViewController: UIViewController {
         cancelBtn.setImage(getImage("pb_retake"), for: .normal)
         cancelBtn.addTarget(self, action: #selector(cancelBtnClick), for: .touchUpInside)
         cancelBtn.adjustsImageWhenHighlighted = false
-        cancelBtn.pb_enlargeValidTouchArea(inset: 30)
+        cancelBtn.enlargeValidTouchArea(inset: 30)
         topShadowView.addSubview(cancelBtn)
         
         bottomShadowView = UIView()
@@ -542,7 +542,7 @@ public class PBEditImageViewController: UIViewController {
     }
     
     func rotationImageView() {
-        let transform = CGAffineTransform(rotationAngle: angle.pb_toPi)
+        let transform = CGAffineTransform(rotationAngle: angle.toPi)
         imageView.transform = transform
         drawingImageView.transform = transform
         stickersContainer.transform = transform

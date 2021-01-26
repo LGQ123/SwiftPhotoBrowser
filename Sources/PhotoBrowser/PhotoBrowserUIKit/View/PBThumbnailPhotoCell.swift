@@ -76,7 +76,7 @@ class PBThumbnailPhotoCell: UICollectionViewCell {
         btnSelect.setBackgroundImage(getImage("pb_btn_unselected"), for: .normal)
         btnSelect.setBackgroundImage(getImage("pb_btn_selected"), for: .selected)
         btnSelect.addTarget(self, action: #selector(btnSelectClick), for: .touchUpInside)
-        btnSelect.pb_enlargeValidTouchArea(insets: UIEdgeInsets(top: 5, left: 20, bottom: 20, right: 5))
+        btnSelect.enlargeValidTouchArea(insets: UIEdgeInsets(top: 5, left: 20, bottom: 20, right: 5))
         contentView.addSubview(btnSelect)
         
         indexLabel = UILabel()

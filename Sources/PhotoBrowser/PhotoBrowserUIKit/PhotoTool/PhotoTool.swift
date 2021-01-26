@@ -210,7 +210,7 @@ extension Bundle {
 }
 
 extension CGFloat {
-    var pb_toPi: CGFloat {
+    var toPi: CGFloat {
         return self / 180 * .pi
     }
 }
@@ -222,7 +222,7 @@ extension Int {
 }
 
 extension Array where Element: Equatable {
-    func pb_removeDuplicate() -> Array {
+    func removeDuplicate() -> Array {
         return self.enumerated().filter { (index, value) -> Bool in
             return self.firstIndex(of: value) == index
         }.map { (_, value) in
@@ -232,7 +232,7 @@ extension Array where Element: Equatable {
 }
 
 extension String {
-    func pb_boundingRect(font: UIFont, limitSize: CGSize) -> CGSize {
+    func boundingRect(font: UIFont, limitSize: CGSize) -> CGSize {
         let style = NSMutableParagraphStyle()
         style.lineBreakMode = .byCharWrapping
         

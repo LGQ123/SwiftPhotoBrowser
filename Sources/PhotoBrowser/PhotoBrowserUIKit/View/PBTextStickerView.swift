@@ -150,7 +150,7 @@ class PBTextStickerView: UIView, PBStickerViewAdditional {
         }
         
         // Rotate must be first when first layout.
-        transform = transform.rotated(by: originAngle.pb_toPi)
+        transform = transform.rotated(by: originAngle.toPi)
         
         if totalTranslationPoint != .zero {
             if originAngle == 90 {
@@ -366,7 +366,7 @@ class PBTextStickerView: UIView, PBStickerViewAdditional {
         transform = transform.scaledBy(x: 1/gesScale, y: 1/gesScale)
         // Revert ges rotation.
         transform = transform.rotated(by: -gesRotation)
-        transform = transform.rotated(by: -originAngle.pb_toPi)
+        transform = transform.rotated(by: -originAngle.toPi)
         
         // Recalculate current frame.
         let center = CGPoint(x: frame.midX, y: frame.midY)
@@ -392,12 +392,12 @@ class PBTextStickerView: UIView, PBStickerViewAdditional {
         transform = transform.scaledBy(x: gesScale, y: gesScale)
         // Readd ges rotation.
         transform = transform.rotated(by: gesRotation)
-        transform = transform.rotated(by: originAngle.pb_toPi)
+        transform = transform.rotated(by: originAngle.toPi)
     }
     
     class func calculateSize(text: String, width: CGFloat) -> CGSize {
         let diff = PBTextStickerView.edgeInset * 2
-        let size = text.pb_boundingRect(font: UIFont.boldSystemFont(ofSize: PBTextStickerView.fontSize), limitSize: CGSize(width: width - diff, height: CGFloat.greatestFiniteMagnitude))
+        let size = text.boundingRect(font: UIFont.boldSystemFont(ofSize: PBTextStickerView.fontSize), limitSize: CGSize(width: width - diff, height: CGFloat.greatestFiniteMagnitude))
         return CGSize(width: size.width + diff * 2, height: size.height + diff * 2)
     }
     

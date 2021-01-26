@@ -11,7 +11,7 @@ private var edgeKey = "edgeKey"
 
 extension UIControl {
     
-    private var pb_insets: UIEdgeInsets? {
+    private var insets: UIEdgeInsets? {
         get {
             if let temp = objc_getAssociatedObject(self, &edgeKey) as? UIEdgeInsets  {
                 return temp
@@ -22,7 +22,6 @@ extension UIControl {
             objc_setAssociatedObject(self, &edgeKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
-    
     
     open override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         guard !self.isHidden && self.alpha != 0 else {
@@ -38,7 +37,7 @@ extension UIControl {
     }
     
     private func enlargeRect() -> CGRect {
-        guard let edge = self.pb_insets else {
+        guard let edge = self.insets else {
             return self.bounds
         }
         
@@ -47,15 +46,15 @@ extension UIControl {
         return rect
     }
     
-    func pb_enlargeValidTouchArea(insets: UIEdgeInsets) {
-        self.pb_insets = insets
+    func enlargeValidTouchArea(insets: UIEdgeInsets) {
+        self.insets = insets
     }
     
-    func pb_enlargeValidTouchArea(inset: CGFloat) {
+    func enlargeValidTouchArea(inset: CGFloat) {
         guard inset != 0 else {
             return
         }
-        self.pb_insets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+        self.insets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
     }
     
 }

@@ -49,10 +49,10 @@ class PBAlbumListCell: UITableViewCell {
         
         coverImageView.frame = CGRect(x: imageViewX, y: 2, width: bounds.height-4, height: bounds.height-4)
         if let m = model {
-            let titleW = min(bounds.width / 3 * 2, m.title.pb_boundingRect(font: UIFont.systemFont(ofSize: 17), limitSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: 30)).width)
+            let titleW = min(bounds.width / 3 * 2, m.title.boundingRect(font: UIFont.systemFont(ofSize: 17), limitSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: 30)).width)
             titleLabel.frame = CGRect(x: coverImageView.frame.maxX + 10, y: (bounds.height - 30)/2, width: titleW, height: 30)
             
-            let countSize = ("(" + String(model.count) + ")").pb_boundingRect(font: UIFont.systemFont(ofSize: 17), limitSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: 30))
+            let countSize = ("(" + String(model.count) + ")").boundingRect(font: UIFont.systemFont(ofSize: 17), limitSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: 30))
             countLabel.frame = CGRect(x: titleLabel.frame.maxX + 10, y: (bounds.height - 30)/2, width: countSize.width, height: 30)
         }
         selectBtn.frame = CGRect(x: bounds.width - 20 - 20, y: (bounds.height - 20) / 2, width: 20, height: 20)
