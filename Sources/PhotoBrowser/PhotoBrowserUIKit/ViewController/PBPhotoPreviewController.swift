@@ -243,10 +243,10 @@ class PBPhotoPreviewController: UIViewController {
         collectionView.showsHorizontalScrollIndicator = false
         view.addSubview(collectionView)
         
-        PBPhotoPreviewCell.pb_register(collectionView)
-        PBGifPreviewCell.pb_register(collectionView)
-        PBLivePhotoPewviewCell.pb_register(collectionView)
-        PBVideoPreviewCell.pb_register(collectionView)
+        PBPhotoPreviewCell.register(collectionView)
+        PBGifPreviewCell.register(collectionView)
+        PBLivePhotoPewviewCell.register(collectionView)
+        PBVideoPreviewCell.register(collectionView)
         
         // bottom view
         bottomView = UIView()
@@ -666,7 +666,7 @@ extension PBPhotoPreviewController: UICollectionViewDataSource, UICollectionView
         let baseCell: PBPreviewBaseCell
         
         if config.allowSelectGif, model.type == .gif {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBGifPreviewCell.pb_identifier(), for: indexPath) as! PBGifPreviewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBGifPreviewCell.identifier(), for: indexPath) as! PBGifPreviewCell
             
             cell.singleTapBlock = { [weak self] in
                 self?.tapPreviewCell()
@@ -676,19 +676,19 @@ extension PBPhotoPreviewController: UICollectionViewDataSource, UICollectionView
             
             baseCell = cell
         } else if config.allowSelectLivePhoto, model.type == .livePhoto {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBLivePhotoPewviewCell.pb_identifier(), for: indexPath) as! PBLivePhotoPewviewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBLivePhotoPewviewCell.identifier(), for: indexPath) as! PBLivePhotoPewviewCell
             
             cell.model = model
             
             baseCell = cell
         } else if config.allowSelectVideo, model.type == .video {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBVideoPreviewCell.pb_identifier(), for: indexPath) as! PBVideoPreviewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBVideoPreviewCell.identifier(), for: indexPath) as! PBVideoPreviewCell
             
             cell.model = model
             
             baseCell = cell
         } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBPhotoPreviewCell.pb_identifier(), for: indexPath) as! PBPhotoPreviewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBPhotoPreviewCell.identifier(), for: indexPath) as! PBPhotoPreviewCell
 
             cell.singleTapBlock = { [weak self] in
                 self?.tapPreviewCell()
@@ -756,7 +756,7 @@ class PBPhotoPreviewSelectedView: UIView, UICollectionViewDataSource, UICollecti
         collectionView.alwaysBounceHorizontal = true
         addSubview(collectionView)
         
-        PBPhotoPreviewSelectedViewCell.pb_register(collectionView)
+        PBPhotoPreviewSelectedViewCell.register(collectionView)
         
         if #available(iOS 11.0, *) {
             collectionView.dragDelegate = self
@@ -909,7 +909,7 @@ class PBPhotoPreviewSelectedView: UIView, UICollectionViewDataSource, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBPhotoPreviewSelectedViewCell.pb_identifier(), for: indexPath) as! PBPhotoPreviewSelectedViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBPhotoPreviewSelectedViewCell.identifier(), for: indexPath) as! PBPhotoPreviewSelectedViewCell
         
         let m = arrSelectedModels[indexPath.row]
         cell.model = m

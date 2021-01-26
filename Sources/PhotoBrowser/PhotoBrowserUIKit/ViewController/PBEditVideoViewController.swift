@@ -175,7 +175,7 @@ public class PBEditVideoViewController: UIViewController {
         collectionView.showsHorizontalScrollIndicator = false
         view.addSubview(collectionView)
         
-        PBEditVideoFrameImageCell.pb_register(collectionView)
+        PBEditVideoFrameImageCell.register(collectionView)
         
         frameImageBorderView = PBEditVideoFrameImageBorderView()
         frameImageBorderView.isUserInteractionEnabled = false
@@ -465,7 +465,7 @@ extension PBEditVideoViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBEditVideoFrameImageCell.pb_identifier(), for: indexPath) as! PBEditVideoFrameImageCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBEditVideoFrameImageCell.identifier(), for: indexPath) as! PBEditVideoFrameImageCell
         
         if let image = frameImageCache[indexPath.row] {
             cell.imageView.image = image

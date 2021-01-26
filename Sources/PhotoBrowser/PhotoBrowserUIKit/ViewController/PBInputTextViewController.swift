@@ -139,7 +139,7 @@ class PBInputTextViewController: UIViewController {
         collectionView.showsHorizontalScrollIndicator = false
         view.addSubview(collectionView)
         
-        PBDrawColorCell.pb_register(collectionView)
+        PBDrawColorCell.register(collectionView)
     }
     
     @objc func cancelBtnClick() {
@@ -171,7 +171,7 @@ extension PBInputTextViewController: UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBDrawColorCell.pb_identifier(), for: indexPath) as! PBDrawColorCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBDrawColorCell.identifier(), for: indexPath) as! PBDrawColorCell
         
         let c = PhotoConfiguration.default().textStickerTextColors[indexPath.row]
         cell.color = c

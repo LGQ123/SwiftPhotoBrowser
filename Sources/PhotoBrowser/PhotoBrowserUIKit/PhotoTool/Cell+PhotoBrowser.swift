@@ -9,24 +9,24 @@ import UIKit
 
 extension UICollectionViewCell {
     
-    class func pb_identifier() -> String {
+    class func identifier() -> String {
         return NSStringFromClass(self.classForCoder())
     }
     
-    class func pb_register(_ collectionView: UICollectionView) {
-        collectionView.register(self.classForCoder(), forCellWithReuseIdentifier: self.pb_identifier())
+    class func register(_ collectionView: UICollectionView) {
+        collectionView.register(self.classForCoder(), forCellWithReuseIdentifier: self.identifier())
     }
     
 }
 
 extension UITableViewCell {
     
-    class func pb_identifier() -> String {
+    class func identifier() -> String {
         return NSStringFromClass(self.classForCoder())
     }
     
-    class func pb_register(_ tableView: UITableView) {
-        tableView.register(self.classForCoder(), forCellReuseIdentifier: self.pb_identifier())
+    class func register(_ tableView: UITableView) {
+        tableView.register(self.classForCoder(), forCellReuseIdentifier: self.identifier())
     }
     
 }

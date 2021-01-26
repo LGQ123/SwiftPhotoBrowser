@@ -410,7 +410,7 @@ public class PBEditImageViewController: UIViewController {
         editToolCollectionView.showsHorizontalScrollIndicator = false
         bottomShadowView.addSubview(editToolCollectionView)
         
-        PBEditToolCell.pb_register(editToolCollectionView)
+        PBEditToolCell.register(editToolCollectionView)
         
         doneBtn = UIButton(type: .custom)
         doneBtn.titleLabel?.font = PBLayout.bottomToolTitleFont
@@ -435,7 +435,7 @@ public class PBEditImageViewController: UIViewController {
         drawColorCollectionView.showsHorizontalScrollIndicator = false
         bottomShadowView.addSubview(drawColorCollectionView)
         
-        PBDrawColorCell.pb_register(drawColorCollectionView)
+        PBDrawColorCell.register(drawColorCollectionView)
         
         let filterLayout = UICollectionViewFlowLayout()
         filterLayout.itemSize = CGSize(width: PBEditImageViewController.filterColViewH-20, height: PBEditImageViewController.filterColViewH)
@@ -450,7 +450,7 @@ public class PBEditImageViewController: UIViewController {
         filterCollectionView.showsHorizontalScrollIndicator = false
         bottomShadowView.addSubview(filterCollectionView)
         
-        PBFilterImageCell.pb_register(filterCollectionView)
+        PBFilterImageCell.register(filterCollectionView)
         
         revokeBtn = UIButton(type: .custom)
         revokeBtn.setImage(getImage("pb_revoke_disable"), for: .disabled)
@@ -1056,7 +1056,7 @@ extension PBEditImageViewController: UICollectionViewDataSource, UICollectionVie
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == editToolCollectionView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBEditToolCell.pb_identifier(), for: indexPath) as! PBEditToolCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBEditToolCell.identifier(), for: indexPath) as! PBEditToolCell
             
             let toolType = tools[indexPath.row]
             cell.icon.isHighlighted = false
@@ -1065,7 +1065,7 @@ extension PBEditImageViewController: UICollectionViewDataSource, UICollectionVie
             
             return cell
         } else if collectionView == drawColorCollectionView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBDrawColorCell.pb_identifier(), for: indexPath) as! PBDrawColorCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBDrawColorCell.identifier(), for: indexPath) as! PBDrawColorCell
             
             let c = drawColors[indexPath.row]
             cell.color = c
@@ -1077,7 +1077,7 @@ extension PBEditImageViewController: UICollectionViewDataSource, UICollectionVie
             
             return cell
         } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBFilterImageCell.pb_identifier(), for: indexPath) as! PBFilterImageCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBFilterImageCell.identifier(), for: indexPath) as! PBFilterImageCell
             
             let image = thumbnailFilterImages[indexPath.row]
             let filter = PhotoConfiguration.default().filters[indexPath.row]

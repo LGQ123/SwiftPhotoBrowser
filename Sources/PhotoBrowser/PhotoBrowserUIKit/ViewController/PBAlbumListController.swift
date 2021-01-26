@@ -94,7 +94,7 @@ class PBAlbumListController: UIViewController, UITableViewDataSource, UITableVie
         tableView.dataSource = self
         view.addSubview(tableView)
         
-        PBAlbumListCell.pb_register(tableView)
+        PBAlbumListCell.register(tableView)
         
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .always
@@ -135,7 +135,7 @@ class PBAlbumListController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: PBAlbumListCell.pb_identifier(), for: indexPath) as! PBAlbumListCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: PBAlbumListCell.identifier(), for: indexPath) as! PBAlbumListCell
         
         cell.configureCell(model: arrDataSource[indexPath.row], style: .externalAlbumList)
         

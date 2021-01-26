@@ -259,10 +259,10 @@ class PBThumbnailViewController: UIViewController {
         }
         view.addSubview(collectionView)
         
-        PBCameraCell.pb_register(collectionView)
-        PBThumbnailPhotoCell.pb_register(collectionView)
+        PBCameraCell.register(collectionView)
+        PBThumbnailPhotoCell.register(collectionView)
         collectionView.register(PBThumbnailColViewFooter.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NSStringFromClass(PBThumbnailColViewFooter.classForCoder()))
-        PBAddPhotoCell.pb_register(collectionView)
+        PBAddPhotoCell.register(collectionView)
         
         bottomView = UIView()
         bottomView.backgroundColor = .bottomToolViewBgColor
@@ -866,7 +866,7 @@ extension PBThumbnailViewController: UICollectionViewDataSource, UICollectionVie
         if showCameraCell && ((config.sortAscending && indexPath.row == arrDataSources.count) || (!config.sortAscending && indexPath.row == 0)) {
             // camera cell
             
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBCameraCell.pb_identifier(), for: indexPath) as! PBCameraCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBCameraCell.identifier(), for: indexPath) as! PBCameraCell
             
             if config.showCaptureImageOnTakePhotoBtn {
                 cell.startCapture()
@@ -877,14 +877,14 @@ extension PBThumbnailViewController: UICollectionViewDataSource, UICollectionVie
         
         if #available(iOS 14, *) {
             if showAddPhotoCell && ((config.sortAscending && indexPath.row == arrDataSources.count - 1 + offset) || (!config.sortAscending && indexPath.row == offset - 1)) {
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBAddPhotoCell.pb_identifier(), for: indexPath) as? PBAddPhotoCell else {
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBAddPhotoCell.identifier(), for: indexPath) as? PBAddPhotoCell else {
                     return UICollectionViewCell()
                 }
                 return cell
             }
         }
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBThumbnailPhotoCell.pb_identifier(), for: indexPath) as! PBThumbnailPhotoCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBThumbnailPhotoCell.identifier(), for: indexPath) as! PBThumbnailPhotoCell
         
         let model: PBPhotoModel
         

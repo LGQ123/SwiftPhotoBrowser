@@ -145,7 +145,7 @@ open class PBPhotoPreviewSheet: UIView {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.isHidden = PhotoConfiguration.default().maxPreviewCount == 0
-        PBThumbnailPhotoCell.pb_register(collectionView)
+        PBThumbnailPhotoCell.register(collectionView)
         baseView.addSubview(collectionView)
         
         placeholderLabel = UILabel()
@@ -766,7 +766,7 @@ extension PBPhotoPreviewSheet: UICollectionViewDataSource, UICollectionViewDeleg
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBThumbnailPhotoCell.pb_identifier(), for: indexPath) as! PBThumbnailPhotoCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBThumbnailPhotoCell.identifier(), for: indexPath) as! PBThumbnailPhotoCell
         
         let model = arrDataSources[indexPath.row]
         

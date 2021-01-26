@@ -81,7 +81,7 @@ class PBEmbedAlbumListView: UIView {
         tableView.dataSource = self
         tableBgView.addSubview(tableView)
         
-        PBAlbumListCell.pb_register(tableView)
+        PBAlbumListCell.register(tableView)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction(_:)))
         tap.delegate = self
@@ -194,7 +194,7 @@ extension PBEmbedAlbumListView: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: PBAlbumListCell.pb_identifier(), for: indexPath) as! PBAlbumListCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: PBAlbumListCell.identifier(), for: indexPath) as! PBAlbumListCell
         
         let m = arrDataSource[indexPath.row]
         

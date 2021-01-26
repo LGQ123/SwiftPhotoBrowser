@@ -334,7 +334,7 @@ class PBClipImageViewController: UIViewController {
         clipRatioColView.isHidden = clipRatios.count <= 1
         clipRatioColView.showsHorizontalScrollIndicator = false
         view.addSubview(clipRatioColView)
-        PBImageClipRatioCell.pb_register(clipRatioColView)
+        PBImageClipRatioCell.register(clipRatioColView)
         
         gridPanGes = UIPanGestureRecognizer(target: self, action: #selector(gridGesPanAction(_:)))
         gridPanGes.delegate = self
@@ -911,7 +911,7 @@ extension PBClipImageViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBImageClipRatioCell.pb_identifier(), for: indexPath) as! PBImageClipRatioCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PBImageClipRatioCell.identifier(), for: indexPath) as! PBImageClipRatioCell
         
         let ratio = clipRatios[indexPath.row]
         cell.configureCell(image: thumbnailImage ?? editImage, ratio: ratio)
