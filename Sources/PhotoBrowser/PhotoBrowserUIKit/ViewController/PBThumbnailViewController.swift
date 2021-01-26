@@ -1213,7 +1213,7 @@ class PBEmbedAlbumListNavView: UIView {
         
         refreshTitleViewFrame()
         let cancelBtnW: CGFloat = 40.0
-        cancelBtn.frame = CGRect(x: insets.left+ 10, y: insets.top, width: cancelBtnW, height: 44)
+        cancelBtn.frame = CGRect(x: insets.left + 10, y: insets.top, width: cancelBtnW, height: 44)
     }
     
     func refreshTitleViewFrame() {
