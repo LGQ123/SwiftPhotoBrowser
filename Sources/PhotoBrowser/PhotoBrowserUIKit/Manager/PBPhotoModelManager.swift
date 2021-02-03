@@ -7,10 +7,11 @@
 
 import Photos
 import PhotoLib
+
 class PBPhotoModelManager: NSObject {
     
     /// 获取相机相册 ->PBAlbumListModel
-     open class func getCameraRollAlbum(allowSelectImage: Bool, allowSelectVideo: Bool, completion: @escaping ( (PBAlbumListModel) -> Void )) {
+     public class func getCameraRollAlbum(allowSelectImage: Bool, allowSelectVideo: Bool, completion: @escaping ( (PBAlbumListModel) -> Void )) {
         
         PBPhotoManager.getCameraRollAlbum(allowSelectImage: allowSelectImage, allowSelectVideo: allowSelectVideo) { (success, collection, result, option) in
             
@@ -25,7 +26,7 @@ class PBPhotoModelManager: NSObject {
     }
     
     /// 获取某个PHFetchResult照片 - >. PBPhotoModel
-    open class func fetchPhoto(in result: PHFetchResult<PHAsset>, ascending: Bool, allowSelectImage: Bool, allowSelectVideo: Bool, limitCount: Int = .max) -> [PBPhotoModel] {
+    public class func fetchPhoto(in result: PHFetchResult<PHAsset>, ascending: Bool, allowSelectImage: Bool, allowSelectVideo: Bool, limitCount: Int = .max) -> [PBPhotoModel] {
         var models: [PBPhotoModel] = []
         let option: NSEnumerationOptions = ascending ? .init(rawValue: 0) : .reverse
         var count = 1
@@ -50,7 +51,7 @@ class PBPhotoModelManager: NSObject {
         return models
     }
     
-    open class func getPhotoAlbumList(ascending: Bool, allowSelectImage: Bool, allowSelectVideo: Bool, completion: ( ([PBAlbumListModel]) -> Void )) {
+    public class func getPhotoAlbumList(ascending: Bool, allowSelectImage: Bool, allowSelectVideo: Bool, completion: ( ([PBAlbumListModel]) -> Void )) {
         let option = PHFetchOptions()
         if !allowSelectImage {
             option.predicate = NSPredicate(format: "mediaType == %ld", PHAssetMediaType.video.rawValue)

@@ -73,7 +73,8 @@ extension PBImageClipRatio {
     public static let wh16x9 = PBImageClipRatio(title: "16 : 9", whRatio: 16.0/9.0)
 }
 
-
+@objcMembers
+@objc(SwiftPhotoConfiguration)
 open class PhotoConfiguration: NSObject {
     private static let single = PhotoConfiguration()
     

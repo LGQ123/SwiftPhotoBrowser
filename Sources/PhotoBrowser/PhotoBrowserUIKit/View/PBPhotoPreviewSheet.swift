@@ -8,6 +8,9 @@
 import UIKit
 import Photos
 import PhotoLib
+
+@objcMembers
+@objc(SwiftPBPhotoPreviewSheet)
 open class PBPhotoPreviewSheet: UIView {
 
     struct Layout {

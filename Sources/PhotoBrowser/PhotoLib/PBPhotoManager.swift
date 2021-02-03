@@ -8,6 +8,9 @@
 import UIKit
 import Photos
 import PhotosUI
+
+@objcMembers
+@objc(SwiftPBPhotoManager)
 open class PBPhotoManager: NSObject {
     
     /// 保存图像到相册
