@@ -156,7 +156,7 @@ class PBThumbnailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
-        collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
+//        collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
         resetBottomToolBtnStatus()
     }
     
