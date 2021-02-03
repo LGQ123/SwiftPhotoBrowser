@@ -9,6 +9,8 @@ import UIKit
 import AVFoundation
 import CoreMotion
 
+@objcMembers
+@objc(SwiftPBCustomCamera)
 open class PBCustomCamera: UIViewController, CAAnimationDelegate {
 
     struct Layout {

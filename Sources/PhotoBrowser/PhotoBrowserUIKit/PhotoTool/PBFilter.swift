@@ -53,6 +53,8 @@ public enum PBFilterType: Int {
     }
 }
 
+@objcMembers
+@objc(SwiftPBFilter)
 open class PBFilter: NSObject {
     
     let name: String

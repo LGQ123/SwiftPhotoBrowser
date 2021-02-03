@@ -42,6 +42,8 @@ public protocol PBImageStickerContainerDelegate where Self: UIView {
 }
 
 /// 裁剪比例
+@objcMembers
+@objc(SwiftPBImageClipRatio)
 open class PBImageClipRatio: NSObject {
     
     let title: String
@@ -403,6 +405,8 @@ open class PhotoConfiguration: NSObject {
 }
 
 /// Color
+@objcMembers
+@objc(SwiftPBPhotoThemeColorDeploy)
 open class PBPhotoThemeColorDeploy: NSObject {
     
     

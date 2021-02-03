@@ -7,6 +7,8 @@
 
 import UIKit
 
+@objcMembers
+@objc(SwiftPBProgressHUD)
 open class PBProgressHUD: UIView {
 
     public enum HUDStyle: Int {
