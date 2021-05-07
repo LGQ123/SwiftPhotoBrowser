@@ -8,6 +8,7 @@
 import UIKit
 import AVFoundation
 import CoreMotion
+import PhotoLib
 
 @objcMembers
 @objc(SwiftPBCustomCamera)
@@ -29,9 +30,13 @@ open class PBCustomCamera: UIViewController, CAAnimationDelegate {
     
     @objc public var takeDoneBlock: ( (UIImage?, URL?) -> Void )?
     
+    @objc public var selectImageBlock: ( (PBPhotoModel) -> Void )?
+    
     var tipsLabel: UILabel!
     
     var hideTipsTimer: Timer?
+    
+    var topView: UIView!
     
     var bottomView: UIView!
     
@@ -175,7 +180,9 @@ open class PBCustomCamera: UIViewController, CAAnimationDelegate {
     
     public override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        session.stopRunning()
+        if !(PhotoConfiguration.default().clickStyle == .clip) {
+            session.stopRunning()
+        }
     }
     
     public override func viewDidLayoutSubviews() {
@@ -191,14 +198,14 @@ open class PBCustomCamera: UIViewController, CAAnimationDelegate {
         previewLayer?.frame = CGRect(x: 0, y: previewLayerY, width: view.bounds.width, height: view.bounds.height)
         recordVideoPlayerLayer?.frame = view.bounds
         takedImageView.frame = view.bounds
-        
+        topView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: insets.top+48)
         bottomView.frame = CGRect(x: 0, y: view.bounds.height-insets.bottom-PBCustomCamera.Layout.bottomViewH-50, width: view.bounds.width, height: PBCustomCamera.Layout.bottomViewH)
         let largeCircleH = PBCustomCamera.Layout.largeCircleRadius
         largeCircleView.frame = CGRect(x: (view.bounds.width-largeCircleH)/2, y: (PBCustomCamera.Layout.bottomViewH-largeCircleH)/2, width: largeCircleH, height: largeCircleH)
         let smallCircleH = PBCustomCamera.Layout.smallCircleRadius
         smallCircleView.frame = CGRect(x: (view.bounds.width-smallCircleH)/2, y: (PBCustomCamera.Layout.bottomViewH-smallCircleH)/2, width: smallCircleH, height: smallCircleH)
         
-        dismissBtn.frame = CGRect(x: 60, y: (PBCustomCamera.Layout.bottomViewH-25)/2, width: 25, height: 25)
+        dismissBtn.frame = CGRect(x: ((view.bounds.width-largeCircleH)/2-25)/2, y: (PBCustomCamera.Layout.bottomViewH-25)/2, width: 25, height: 25)
         
         tipsLabel.frame = CGRect(x: 0, y: bottomView.frame.minY-20, width: view.bounds.width, height: 20)
         
@@ -243,6 +250,10 @@ open class PBCustomCamera: UIViewController, CAAnimationDelegate {
         
         bottomView = UIView()
         view.addSubview(bottomView)
+        
+        topView = UIView()
+        topView.backgroundColor = .black
+        view.addSubview(topView)
         
         dismissBtn = UIButton(type: .custom)
         dismissBtn.setImage(getImage("pb_arrow_down"), for: .normal)
@@ -839,6 +850,27 @@ open class PBCustomCamera: UIViewController, CAAnimationDelegate {
         recordVideoPlayerLayer?.player?.seek(to: .zero)
         recordVideoPlayerLayer?.player?.play()
     }
+    
+    func showEditImageVC(model: PBPhotoModel) {
+        let hud = PBProgressHUD(style: PhotoConfiguration.default().hudStyle)
+        hud.show()
+        PBPhotoManager.fetchImage(for: model.asset, size: model.previewSize) { (image, isDegraded) in
+            if !isDegraded {
+                if let image = image {
+                    PBEditImageViewController.showEditImageVC(parentVC: self, image: image, editModel: model.editImageModel) { (ei, editImageModel) in
+                        model.isSelected = true
+                        model.editImage = ei
+                        model.editImageModel = editImageModel
+                        self.selectImageBlock?(model)
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                } else {
+                    showAlertView("图片加载失败", self)
+                }
+                hud.hide()
+            }
+        }
+    }
 
 }
 
@@ -852,11 +884,27 @@ extension PBCustomCamera: AVCapturePhotoCaptureDelegate {
         }
         
         if let data = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: photoSampleBuffer!, previewPhotoSampleBuffer: previewPhotoSampleBuffer) {
-            session.stopRunning()
             takedImage = UIImage(data: data)?.fixOrientation()
-            takedImageView.image = takedImage
-            takedImageView.isHidden = false
-            resetSubViewStatus()
+            if PhotoConfiguration.default().clickStyle == .clip {
+                let hud = PBProgressHUD(style: PhotoConfiguration.default().hudStyle)
+                if let image = takedImage {
+                    hud.show()
+                    PBPhotoManager.saveImageToAlbum(image: image) { [weak self] (suc, asset) in
+                        if suc, let at = asset {
+                            let model = PBPhotoModel(asset: at)
+                            self?.showEditImageVC(model: model)
+                        } else {
+                            showAlertView("保存图片失败", self)
+                        }
+                        hud.hide()
+                    }
+                }
+            } else {
+                session.stopRunning()
+                takedImageView.image = takedImage
+                takedImageView.isHidden = false
+                resetSubViewStatus()
+            }
         } else {
             print("拍照失败，data为空")
         }

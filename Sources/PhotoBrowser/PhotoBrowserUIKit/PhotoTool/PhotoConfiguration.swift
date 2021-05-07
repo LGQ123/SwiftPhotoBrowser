@@ -27,6 +27,14 @@ public enum EditImageTool: Int {
     case filter
 }
 
+/// 点击照片跳转方式
+public enum PhotoClickStyle: Int {
+    /// 预览
+    case preview
+    ///  裁剪
+    case clip
+}
+
 /// 贴纸协议
 public protocol PBImageStickerContainerDelegate where Self: UIView {
     
@@ -89,6 +97,9 @@ open class PhotoConfiguration: NSObject {
     /// 缩略图 与相册列表 push. externalAlbumList
     open var style: PhotoBrowserStyle = .embedAlbumList
     
+    /// 跳转方式
+    /// 默认预览
+    open var clickStyle: PhotoClickStyle = .preview
     
     /// statusBarStyle 默认 lightContent
     open var statusBarStyle: UIStatusBarStyle = .lightContent

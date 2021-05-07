@@ -241,6 +241,39 @@ open class PBPhotoPreviewSheet: UIView {
         self.sender?.showDetailViewController(nav, sender: nil)
     }
     
+    open func showCamera(sender: UIViewController) {
+        let config = PhotoConfiguration.default()
+        if config.useCustomCamera {
+        let camera = PBCustomCamera()
+            camera.selectImageBlock = { (model) in
+                self.arrSelectedModels.append(model)
+                self.requestSelectPhoto()
+            }
+            sender.showDetailViewController(camera, sender: nil)
+        } else {
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                let picker = UIImagePickerController()
+                picker.delegate = self
+                picker.allowsEditing = false
+                picker.videoQuality = .typeHigh
+                picker.sourceType = .camera
+                picker.cameraFlashMode = config.cameraFlashMode.imagePickerFlashMode
+                var mediaTypes = [String]()
+                if config.allowTakePhoto {
+                    mediaTypes.append("public.image")
+                }
+                if config.allowRecordVideo {
+                    mediaTypes.append("public.movie")
+                }
+                picker.mediaTypes = mediaTypes
+                picker.videoMaximumDuration = TimeInterval(config.maxRecordDuration)
+                sender.showDetailViewController(picker, sender: nil)
+            } else {
+                showAlertView("相机不可用", sender)
+            }
+        }
+    }
+    
     func show(preview: Bool, animate: Bool, sender: UIViewController) {
         self.preview = preview
         self.animate = animate
