@@ -163,9 +163,8 @@ public class PBEditImageViewController: UIViewController {
     }
     
     @objc public class func showEditImageVC(parentVC: UIViewController?, animate: Bool = false, image: UIImage, editModel: PBEditImageModel? = nil, completion: ( (UIImage, PBEditImageModel?) -> Void )? ) {
-        let tools = PhotoConfiguration.default().editImageTools
-        if PhotoConfiguration.default().showClipDirectlyIfOnlyHasClipTool, tools.count == 1, tools.contains(.clip) {
-            let vc = PBClipImageViewController(image: image, editRect: editModel?.editRect, angle: editModel?.angle ?? 0, selectRatio: editModel?.selectRatio)
+        if PhotoConfiguration.default().clickStyle == .clip {
+            let vc = PBRoundClipImageViewController(image: image, editRect: editModel?.editRect, angle: editModel?.angle ?? 0, selectRatio: editModel?.selectRatio)
             vc.clipDoneBlock = { (angle, editRect, ratio) in
                 let m = PBEditImageModel(drawPaths: [], mosaicPaths: [], editRect: editRect, angle: angle, selectRatio: ratio, selectFilter: .normal, textStickers: nil, imageStickers: nil)
                 completion?(image.clipImage(angle, editRect) ?? image, m)
@@ -174,13 +173,26 @@ public class PBEditImageViewController: UIViewController {
             vc.modalPresentationStyle = .fullScreen
             parentVC?.present(vc, animated: animate, completion: nil)
         } else {
-            let vc = PBEditImageViewController(image: image, editModel: editModel)
-            vc.editFinishBlock = {  (ei, editImageModel) in
-                completion?(ei, editImageModel)
+            let tools = PhotoConfiguration.default().editImageTools
+            if PhotoConfiguration.default().showClipDirectlyIfOnlyHasClipTool, tools.count == 1, tools.contains(.clip) {
+                let vc = PBClipImageViewController(image: image, editRect: editModel?.editRect, angle: editModel?.angle ?? 0, selectRatio: editModel?.selectRatio)
+                vc.clipDoneBlock = { (angle, editRect, ratio) in
+                    let m = PBEditImageModel(drawPaths: [], mosaicPaths: [], editRect: editRect, angle: angle, selectRatio: ratio, selectFilter: .normal, textStickers: nil, imageStickers: nil)
+                    completion?(image.clipImage(angle, editRect) ?? image, m)
+                }
+                vc.animate = animate
+                vc.modalPresentationStyle = .fullScreen
+                parentVC?.present(vc, animated: animate, completion: nil)
+            } else {
+                let vc = PBEditImageViewController(image: image, editModel: editModel)
+                vc.editFinishBlock = {  (ei, editImageModel) in
+                    completion?(ei, editImageModel)
+                }
+                vc.animate = animate
+                vc.modalPresentationStyle = .fullScreen
+                parentVC?.present(vc, animated: animate, completion: nil)
             }
-            vc.animate = animate
-            vc.modalPresentationStyle = .fullScreen
-            parentVC?.present(vc, animated: animate, completion: nil)
+            
         }
     }
     

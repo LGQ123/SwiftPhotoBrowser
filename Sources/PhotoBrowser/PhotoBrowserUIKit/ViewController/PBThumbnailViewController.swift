@@ -980,6 +980,10 @@ extension PBThumbnailViewController: UICollectionViewDataSource, UICollectionVie
         if shouldDirectEdit(m) {
             return
         }
+        if PhotoConfiguration.default().clickStyle == .clip {
+            showEditImageVC(model: m)
+            return
+        }
         
         let vc = PBPhotoPreviewController(photos: arrDataSources, index: index)
         show(vc, sender: nil)
