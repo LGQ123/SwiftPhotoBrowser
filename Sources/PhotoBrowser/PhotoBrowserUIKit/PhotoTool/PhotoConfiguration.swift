@@ -10,6 +10,7 @@ import UIKit
 import Photos
 
 /// 打开方式
+@objc(SwiftPhotoBrowserStyle)
 public enum PhotoBrowserStyle: Int {
     /// 缩略图 与相册列表 下拉
     case embedAlbumList
@@ -18,6 +19,7 @@ public enum PhotoBrowserStyle: Int {
     case externalAlbumList
 }
 /// 编辑方式
+@objc(SwiftEditImageTool)
 public enum EditImageTool: Int {
     case draw
     case clip
@@ -28,6 +30,7 @@ public enum EditImageTool: Int {
 }
 
 /// 点击照片跳转方式
+@objc(SwiftPhotoClickStyle)
 public enum PhotoClickStyle: Int {
     /// 预览
     case preview
