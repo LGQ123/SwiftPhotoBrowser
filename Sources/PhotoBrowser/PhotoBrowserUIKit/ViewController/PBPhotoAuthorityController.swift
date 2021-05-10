@@ -62,7 +62,8 @@ class PBPhotoAuthorityController: UIViewController {
         settingBtn.titleLabel?.font = PBLayout.bottomToolTitleFont
         settingBtn.setTitle("前往系统设置", for: .normal)
         settingBtn.setTitleColor(.bottomToolViewBtnNormalTitleColor, for: .normal)
-        settingBtn.backgroundColor = .bottomToolViewBtnNormalBgColor
+//        settingBtn.backgroundColor = .bottomToolViewBtnNormalBgColor
+        settingBtn.setBackgroundImage(getImage("pb_btn_rrc"), for: .normal)
         settingBtn.layer.masksToBounds = true
         settingBtn.layer.cornerRadius = PBLayout.bottomToolBtnCornerRadius
         settingBtn.addTarget(self, action: #selector(settingBtnClick), for: .touchUpInside)
