@@ -739,9 +739,11 @@ class PBThumbnailViewController: UIViewController {
         let nav = navigationController as! PBImageNavController
         
         let hud = PBProgressHUD(style: PhotoConfiguration.default().hudStyle)
-        hud.show()
+        hud.show(timeout: 20)
+        hud.timeoutBlock = { [weak self] in
+            showAlertView("请求超时", self)
+        }
         
-        hud.show()
         PBPhotoManager.fetchImage(for: model.asset, size: model.previewSize) { [weak self, weak nav] (image, isDegraded) in
             if !isDegraded {
                 if let image = image {
